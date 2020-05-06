@@ -1,0 +1,141 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Bullet : MonoBehaviour
+{
+    public GameObject   effectParticle;
+    Transform           target;
+    float               dmg;
+    float               speed;
+    float               explodeRadius;
+    float               slowMultipl = -1;
+    float               slowTime = 0;
+    float               poisonDmg = -1;
+    float               poisonTime = 0;
+
+    [Header("effects")]
+    public GameObject slowEffect;
+    public GameObject poisonEffect;
+
+    void Start()
+    {
+        if (slowEffect && slowMultipl > -1)
+        {
+            slowEffect.GetComponent<ParticleSystem>().startSpeed += speed;
+            slowEffect.SetActive(true);
+        } 
+        else if (!slowEffect)
+        {
+            print("slowEffect null");
+        }
+
+        if (poisonEffect && poisonDmg > -1)
+        {
+            poisonEffect.GetComponent<ParticleSystem>().startSpeed += speed;
+            poisonEffect.SetActive(true);
+        }
+        else if (!poisonEffect)
+        {
+            print("poisonEffect null");
+        }
+    }
+    void Update()
+    {
+        Movement();
+    }
+
+    public void Movement()
+    {
+        if(target == null)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+
+        Vector3 dir = target.position - transform.position + new Vector3(0, 0.3f, 0);
+
+        Quaternion lookRotation = Quaternion.LookRotation(dir);
+        Vector3 rotation = lookRotation.eulerAngles;
+
+        this.transform.rotation = Quaternion.Euler(0f, rotation.y, 0f);
+
+        transform.Translate(dir.normalized * speed * Time.deltaTime, Space.World);
+
+    }
+
+    public void Set(Transform target, float dmg, float speed)
+    {
+        this.target = target;
+        this.dmg = dmg;
+        this.speed = speed;
+    }
+    public void Set(Transform target, float dmg, float speed, float explodeRadius)
+    {
+        this.target = target;
+        this.dmg = dmg;
+        this.speed = speed;
+        this.explodeRadius = explodeRadius;
+    }
+
+    public void SetSlow(float multiplier, float Time)
+    {
+        slowMultipl = multiplier;
+        this.slowTime = Time;
+    }
+    public void SetPoison(float dmg, float Time)
+    {
+        poisonDmg = dmg;
+        this.poisonTime = Time;
+    }
+
+    void OnTriggerEnter(Collider coll)
+    {
+        if(coll.gameObject == target.gameObject)
+        {
+            Hit();
+        }
+    }
+
+    public void Hit()
+    {
+        GameObject effect = Instantiate(effectParticle, transform.position, transform.rotation);
+        Destroy(effect, 0.5f);
+
+        if (explodeRadius > 0)
+        {
+            Collider[] colliders = Physics.OverlapSphere(transform.position, explodeRadius);
+
+            foreach (Collider collider in colliders)
+            {
+                if(collider.gameObject.tag == "enemy")
+                {
+                    collider.gameObject.GetComponent<EnemyEntity>().GetDmg(dmg);
+                    if(slowMultipl > -1)
+                    {
+                        collider.gameObject.GetComponent<EnemyEntity>().AddEffect(new EntityEffect("slow", slowMultipl, slowTime));
+                        SetEffects(collider.gameObject);
+                    }
+                }
+            }
+
+        } else
+        {
+            target.gameObject.GetComponent<EnemyEntity>().GetDmg(dmg);
+            SetEffects(target.gameObject);
+        }
+        Destroy(this.gameObject);
+    }
+
+    void SetEffects(GameObject obj)
+    {
+        if (slowMultipl > -1)
+        {
+            obj.GetComponent<EnemyEntity>().AddEffect(new EntityEffect("slow", slowMultipl, slowTime));
+        }
+        if (poisonDmg > -1)
+        {
+            obj.GetComponent<EnemyEntity>().AddEffect(new EntityEffect("poison", poisonDmg, poisonTime));
+        }
+    }
+}
