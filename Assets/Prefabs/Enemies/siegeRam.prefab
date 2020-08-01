@@ -250,8 +250,8 @@ MonoBehaviour:
   playerToGive: {fileID: 0}
   speedInit: 1
   dmg: 2
-  maxHealth: 60
-  moneyGive: 0
+  maxHealth: 120
+  moneyGive: 3
   slowEffect: {fileID: 4454651745666640336, guid: c38f87aa3d6c7ae489289a3c4583d5e6,
     type: 3}
   poisonEffect: {fileID: 6033942186073617859, guid: ab4166796c7aece4981a836d6900f050,

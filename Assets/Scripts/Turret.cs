@@ -120,8 +120,8 @@ public class Turret : MonoBehaviour
             audioSource.Stop();
             audioSource.Play();
         }
-        GameObject bullObj = Instantiate(bullet);
-        bullObj.transform.position = bulletSpawn.position;
+        var rota = Quaternion.Euler(this.transform.rotation.x, this.transform.rotation.y, this.transform.rotation.z);
+        GameObject bullObj = Instantiate(bullet, new Vector3(bulletSpawn.transform.position.x, this.transform.position.y + 0.2f, bulletSpawn.transform.position.z), rota);
         if (explodeRadius > 0)
         {
             bullObj.GetComponent<Bullet>().Set(target, dmg, bulletSpeed, explodeRadius);

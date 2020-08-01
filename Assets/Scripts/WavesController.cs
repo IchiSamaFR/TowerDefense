@@ -97,7 +97,7 @@ public class WavesController : MonoBehaviour
                 enemy.transform.position = spawn.position;
                 enemy.GetComponent<EnemyEntity>().wavesController = this;
                 enemiesAlive += 1;
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSeconds(lstWaves[wave - 1].rate);
             }
         }
         wave++;

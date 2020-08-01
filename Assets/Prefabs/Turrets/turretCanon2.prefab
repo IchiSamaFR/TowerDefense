@@ -232,7 +232,7 @@ Transform:
   m_GameObject: {fileID: 2921383339603917253}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1, y: 0.2, z: 1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
   - {fileID: 715583556805629250}
   m_Father: {fileID: 0}
@@ -315,4 +315,7 @@ MonoBehaviour:
   bulletSpawn: {fileID: 715583556969047045}
   bullet: {fileID: 6270987313224490337, guid: cc780b1cb5ffdbf488ccdce99107d8b6, type: 3}
   slowMultpl: -1
+  slowTime: 0
+  poisonDmg: -1
+  poisonTime: 0
   audioSource: {fileID: 0}

@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    private bool    canMove = false;
+    public bool    canMove = true;
+    public bool    mouseMove = false;
 
+    [Header("Stats")]
     public float    scrollSpeed = 100f;
     public float    traySpeed = 10f;
     public float    trayBorder = 10f;
@@ -28,9 +30,12 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     float endY;
 
+    Vector3 toGo = new Vector3();
+
     void Start()
     {
         endY = transform.position.y;
+        toGo = this.transform.position;
     }
     void Update()
     {
@@ -40,48 +45,55 @@ public class CameraController : MonoBehaviour
         }
 
 
-        if (!canMove)
+        if (!canMove && Pause.pause)
         {
             return;
         }
 
         if ((Input.GetKey("z") || Input.mousePosition.y >= Screen.height - trayBorder) && this.transform.position.z < clampMaxZ)
         {
-            transform.Translate(Vector3.forward * Time.deltaTime * traySpeed, Space.World);
+            //transform.Translate(Vector3.forward * Time.deltaTime * traySpeed, Space.World);
+            toGo += Vector3.forward * Time.deltaTime * traySpeed;
         }
         if ((Input.GetKey("s") || Input.mousePosition.y <= trayBorder) && this.transform.position.z > clampMinZ)
         {
-            transform.Translate(Vector3.back * Time.deltaTime * traySpeed, Space.World);
+            //transform.Translate(Vector3.back * Time.deltaTime * traySpeed, Space.World);
+            toGo += Vector3.back * Time.deltaTime * traySpeed;
         }
         if ((Input.GetKey("d") || Input.mousePosition.x >= Screen.width - trayBorder) && this.transform.position.x < clampMaxX)
         {
-            transform.Translate(Vector3.right * Time.deltaTime * traySpeed, Space.World);
+            //transform.Translate(Vector3.right * Time.deltaTime * traySpeed, Space.World);
+            toGo += Vector3.right * Time.deltaTime * traySpeed;
         }
         if ((Input.GetKey("q") || Input.mousePosition.x <= trayBorder) && this.transform.position.x > clampMinX)
         {
-            transform.Translate(Vector3.left * Time.deltaTime * traySpeed, Space.World);
+            //transform.Translate(Vector3.left * Time.deltaTime * traySpeed, Space.World);
+            toGo += Vector3.left * Time.deltaTime * traySpeed;
         }
-
 
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if(scroll > 0 && transform.position.y > clampMinY)
         {
-            endY = transform.position.y - scrollSpeed * scroll * Time.deltaTime;
+            //endY = transform.position.y - scrollSpeed * scroll * Time.deltaTime;
+            toGo.y = transform.position.y - scrollSpeed * scroll * Time.deltaTime;
         }
         else if (scroll < 0 && transform.position.y < clampMaxY)
         {
-            endY = transform.position.y - scrollSpeed * scroll * Time.deltaTime;
+            //endY = transform.position.y - scrollSpeed * scroll * Time.deltaTime;
+            toGo.y = transform.position.y - scrollSpeed * scroll * Time.deltaTime;
         }
-        transform.position = new Vector3(transform.position.x, Mathf.Lerp(transform.position.y, endY, Time.deltaTime * 10), transform.position.z);
 
-        if (transform.position.y > clampMaxY)
+
+        if (toGo.y > clampMaxY)
         {
-            transform.position = new Vector3(transform.position.x, clampMaxY + 0.1f, transform.position.z);
+            toGo.y = clampMaxY + 0.1f;
         }
-        else if (transform.position.y < clampMinY)
+        else if (toGo.y < clampMinY)
         {
-            transform.position = new Vector3(transform.position.x, clampMinY - 0.1f, transform.position.z);
+            toGo.y = clampMinY + 0.1f;
         }
+
+        this.transform.position = Vector3.Lerp(this.transform.position, toGo, Time.deltaTime * 10);
 
         float rota = clampZoomMax - ((this.transform.position.y - clampMinY) * ((clampZoomMax - clampZoomMin) / (clampMaxY - clampMinY)));
         this.transform.rotation = Quaternion.Euler(rota, 0, 0);

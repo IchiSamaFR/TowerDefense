@@ -58,6 +58,8 @@
      <Compile Include="Assets\Scripts\CameraController.cs" />
      <Compile Include="Assets\Scripts\CursorSprite.cs" />
      <Compile Include="Assets\Scripts\EnemyEntity.cs" />
+     <Compile Include="Assets\Scripts\MainMenu\LightTurn.cs" />
+     <Compile Include="Assets\Scripts\MainMenu\MenuManager.cs" />
      <Compile Include="Assets\Scripts\Pause.cs" />
      <Compile Include="Assets\Scripts\PlayerStats.cs" />
      <Compile Include="Assets\Scripts\Tile.cs" />

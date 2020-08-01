@@ -33,6 +33,11 @@ public class Tile : MonoBehaviour
             if (turretToBuild == null)
             {   return; }
 
+            foreach (GameObject child in GetChilds())
+            {
+                Destroy(child);
+            }
+
             turret.Set(turretToBuild);
             turret.prefab = Instantiate(turretToBuild.prefab, this.transform.position + new Vector3(0, 0.2f, 0), this.transform.rotation);
         }
@@ -64,6 +69,10 @@ public class Tile : MonoBehaviour
         {
             return;
         }
+        foreach (GameObject child in GetChilds())
+        {
+            child.SetActive(false);
+        }
         showToBuild = Instantiate(turretToBuild, this.transform.position + new Vector3(0, 0.2f, 0), this.transform.rotation);
     }
     void OnMouseExit()
@@ -71,7 +80,22 @@ public class Tile : MonoBehaviour
         if (showToBuild != null)
         {
             Destroy(showToBuild);
+            foreach(GameObject child in GetChilds())
+            {
+                child.SetActive(true);
+            }
             return;
         }
+    }
+
+    List<GameObject> GetChilds()
+    {
+        List<GameObject> toReturn = new List<GameObject>();
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            toReturn.Add(transform.GetChild(i).gameObject);
+        }
+
+        return toReturn;
     }
 }

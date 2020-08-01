@@ -88,4 +88,8 @@ public class Pause : MonoBehaviour
     {
 
     }
+    public void QuitMainMenu()
+    {
+        SceneManager.LoadScene("ChooseWorld");
+    }
 }
