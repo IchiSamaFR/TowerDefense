@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/*
+ * Turret build, class used to stock the turret prefabs and informations
+ */
 [System.Serializable]
 public class TurretBuild
 {
@@ -10,6 +14,9 @@ public class TurretBuild
     public int          level = 0;
     public string       type;
 
+    /*
+     * Like a "public className{}" to set up informations
+     */
     public void Set(int cost, int level, string type)
     {
         this.level = level;

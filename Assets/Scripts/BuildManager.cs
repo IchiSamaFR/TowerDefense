@@ -6,10 +6,6 @@ public class BuildManager : MonoBehaviour
 {
     public static BuildManager instance;
     
-    void Awake()
-    {
-        instance = this;
-    }
 
     [Header("Options")]
     public bool     upgrade = false;
@@ -26,11 +22,25 @@ public class BuildManager : MonoBehaviour
 
     PlayerStats playerStats;
 
+    /*
+     * Before the first step instance it
+     */
+    void Awake()
+    {
+        instance = this;
+    }
+
+    /*
+     * Get player Stats class
+     */
     void Start()
     {
         playerStats = this.GetComponent<PlayerStats>();
     }
 
+    /*
+     * Check every 1/60 seconds if the player is dead or if key down escape is pressed
+     */
     void Update()
     {
         if (this.GetComponent<PlayerStats>().isDead)
@@ -44,6 +54,9 @@ public class BuildManager : MonoBehaviour
         }
     }
 
+    /*
+     * Get the turret builded
+     */
     public TurretBuild GetTurretBuild(Tile tile)
     {
         if(toBuild != null && playerStats.money >= toBuild.cost && tile.turret.type == "")
@@ -54,7 +67,11 @@ public class BuildManager : MonoBehaviour
         {
             return null;
         }
-    }
+    } 
+    
+    /*
+     * Get the preshow turret build
+     */
     public GameObject GetTurretToBuild(Tile tile)
     {
         if (toShow != null && tile.turret.type == "")
@@ -66,6 +83,10 @@ public class BuildManager : MonoBehaviour
             return null;
         }
     }
+
+    /*
+     * Get the turret upgraded by one level
+     */
     public TurretBuild GetTurretUpgrade(Tile tile)
     {
         if (tile.turret.type == "balista" && tile.turret.level < ballistaTurret.Count - 1 
@@ -92,6 +113,10 @@ public class BuildManager : MonoBehaviour
         }
     }
 
+
+    /*
+     * Delete turret and return 1/2 of the turret cost
+     */
     public void SellTurret(Tile tile)
     {
         TurretBuild turret = tile.turret;
@@ -103,31 +128,49 @@ public class BuildManager : MonoBehaviour
         turret.type = "";
     }
 
-
+    /*
+     * Select the upgrade cursor to upgrade turrets
+     */
     public void SelectUpgrade()
     {
         SelectNull();
         CursorSprite.instance.ChangeCursor("upgrade");
         upgrade = true;
     }
+
+    /*
+     * Select the sell cursor to upgrade sell
+     */
     public void SelectSell()
     {
         SelectNull();
         CursorSprite.instance.ChangeCursor("sell");
         sell = true;
     }
+
+    /*
+     * Select balista tower
+     */
     public void SelectBalista()
     {
         SelectNull();
         toBuild = ballistaTurret[0];
         toShow = ballistaTurretShow;
     }
+
+    /*
+     * Select canon tower
+     */
     public void SelectCanon()
     {
         SelectNull();
         toBuild = canonTurret[0];
         toShow = canonTurretShow;
     }
+
+    /*
+     * Deselect turrets or cursors
+     */
     public void SelectNull()
     {
         CursorSprite.instance.ChangeCursor("");

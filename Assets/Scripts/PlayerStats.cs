@@ -20,6 +20,9 @@ public class PlayerStats : MonoBehaviour
     public Text txtIncome;
     public Text txtHealth;
 
+    /*
+     * Void start to instantiate stats
+     */
     void Start()
     {
         health = maxHealth;
@@ -29,22 +32,36 @@ public class PlayerStats : MonoBehaviour
         txtMoney.text = money.ToString();
     }
     
+    /*
+     * Pay for something
+     */
     public void Paid(int amount)
     {
         money -= amount;
         txtMoney.text = money.ToString();
     }
+
+    /*
+     * Get Income every wave
+     */
     public void GetIncome()
     {
         money += income;
         txtMoney.text = money.ToString();
     }
+
+    /*
+     * Get Income by actions like kill an enemy
+     */
     public void GetMoney(int amount)
     {
         money += amount;
         txtMoney.text = money.ToString();
     }
 
+    /*
+     * Check every 1/60 sec the text box to display income
+     */
     void Update()
     {
         if(income > 0)
@@ -56,6 +73,9 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
+    /*
+     * Get damage by enemies
+     */
     public void GetDmg(int amount)
     {
         if(health > 0)
@@ -69,6 +89,10 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
+
+    /*
+     * Death of the player
+     */
     void IsDead()
     {
         money = 0;

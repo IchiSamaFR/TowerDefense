@@ -1,5 +1,10 @@
 ﻿using UnityEngine;
 
+
+/*
+ * Waypoints followed by enemies
+ * Every waypoints are stocked in points
+ */
 public class Waypoints : MonoBehaviour
 {
     public static Transform[] points;

@@ -14,11 +14,13 @@ public class Tile : MonoBehaviour
     {
         buildManager = BuildManager.instance;
     }
-    void Update()
-    {
 
-    }
-
+    /*
+     * On mouse down check if the mouse is in or out and make actions
+     * Place a turret
+     * Upgrade the turret inside
+     * Sell the turret
+     */
     void OnMouseDown()
     {
         if (EventSystem.current.IsPointerOverGameObject())
@@ -26,6 +28,9 @@ public class Tile : MonoBehaviour
             return;
         }
 
+        /*
+         * if Turret null create a new turret
+         */
         if (turret.type == "")
         {
             TurretBuild turretToBuild = buildManager.GetTurretBuild(this);
@@ -41,6 +46,9 @@ public class Tile : MonoBehaviour
             turret.Set(turretToBuild);
             turret.prefab = Instantiate(turretToBuild.prefab, this.transform.position + new Vector3(0, 0.2f, 0), this.transform.rotation);
         }
+        /*
+         * if upgrade request
+         */
         else if (buildManager.upgrade)
         {
             TurretBuild turretToBuild = buildManager.GetTurretUpgrade(this);
@@ -51,6 +59,9 @@ public class Tile : MonoBehaviour
             turret.Set(turretToBuild);
             turret.prefab = Instantiate(turretToBuild.prefab, this.transform.position + new Vector3(0, 0.2f, 0), this.transform.rotation);
         }
+        /*
+         * if sell request
+         */
         else if (buildManager.sell)
         {
             buildManager.SellTurret(this);
@@ -62,6 +73,9 @@ public class Tile : MonoBehaviour
         {   Destroy(showToBuild);   }
     }
 
+    /*
+     * Check the mouse enter in the tile pos and show the shadowBuild if there is a build to show
+     */
     void OnMouseEnter()
     {
         GameObject turretToBuild = BuildManager.instance.GetTurretToBuild(this);
@@ -75,6 +89,10 @@ public class Tile : MonoBehaviour
         }
         showToBuild = Instantiate(turretToBuild, this.transform.position + new Vector3(0, 0.2f, 0), this.transform.rotation);
     }
+
+    /*
+     * Check if the mouse is out Destroy shadow build
+     */
     void OnMouseExit()
     {
         if (showToBuild != null)
@@ -88,6 +106,9 @@ public class Tile : MonoBehaviour
         }
     }
 
+    /*
+     * Check if a turret is already build in the tile
+     */
     List<GameObject> GetChilds()
     {
         List<GameObject> toReturn = new List<GameObject>();

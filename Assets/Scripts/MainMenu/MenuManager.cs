@@ -3,20 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
+
+/*
+ * Main Menu manager
+ */
 public class MenuManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    /*
+     * Called by the play button to launch the map
+     */
     public void Play(){
         SceneManager.LoadScene("GameWorld");
     }

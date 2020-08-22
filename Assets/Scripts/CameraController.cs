@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * Control of the camera movements
+ */
 public class CameraController : MonoBehaviour
 {
     public bool    canMove = true;
@@ -27,17 +30,27 @@ public class CameraController : MonoBehaviour
     public float    clampMaxZ = 10;
     public float    clampMinZ = -10;
 
-    // Update is called once per frame
-    float endY;
+    //float endY;
 
     Vector3 toGo = new Vector3();
 
+    /*
+     * Set of the toGo position equal to it actual position
+     */
     void Start()
     {
-        endY = transform.position.y;
+        //endY = transform.position.y;
         toGo = this.transform.position;
     }
     void Update()
+    {
+        Movement();
+    }
+
+    /*
+     * Set of the position to go
+     */
+    void Movement()
     {
         if (Input.GetKeyDown("a"))
         {
@@ -50,6 +63,9 @@ public class CameraController : MonoBehaviour
             return;
         }
 
+        /*
+        * Use ZQSD to move
+        */
         if ((Input.GetKey("z") || Input.mousePosition.y >= Screen.height - trayBorder) && this.transform.position.z < clampMaxZ)
         {
             //transform.Translate(Vector3.forward * Time.deltaTime * traySpeed, Space.World);
@@ -71,8 +87,12 @@ public class CameraController : MonoBehaviour
             toGo += Vector3.left * Time.deltaTime * traySpeed;
         }
 
+
+        /*
+        * Mouse Scroll Wheel to zoom in or zoom out
+        */
         float scroll = Input.GetAxis("Mouse ScrollWheel");
-        if(scroll > 0 && transform.position.y > clampMinY)
+        if (scroll > 0 && transform.position.y > clampMinY)
         {
             //endY = transform.position.y - scrollSpeed * scroll * Time.deltaTime;
             toGo.y = transform.position.y - scrollSpeed * scroll * Time.deltaTime;
@@ -83,7 +103,9 @@ public class CameraController : MonoBehaviour
             toGo.y = transform.position.y - scrollSpeed * scroll * Time.deltaTime;
         }
 
-
+        /*
+        * Clamp the max height
+        */
         if (toGo.y > clampMaxY)
         {
             toGo.y = clampMaxY + 0.1f;
@@ -93,10 +115,14 @@ public class CameraController : MonoBehaviour
             toGo.y = clampMinY + 0.1f;
         }
 
+        /*
+         * Apply the position with a lerp to get a smooth camera
+         */
         this.transform.position = Vector3.Lerp(this.transform.position, toGo, Time.deltaTime * 10);
 
         float rota = clampZoomMax - ((this.transform.position.y - clampMinY) * ((clampZoomMax - clampZoomMin) / (clampMaxY - clampMinY)));
         this.transform.rotation = Quaternion.Euler(rota, 0, 0);
-
     }
+
+    
 }

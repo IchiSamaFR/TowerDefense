@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/*
+ * Pause menu class
+ */
 public class Pause : MonoBehaviour
 {
     public static bool  pause;
@@ -14,12 +17,18 @@ public class Pause : MonoBehaviour
     public GameObject   deathMenu;
     public GameObject   victoryMenu;
 
+    /*
+     * At the start don't set to pause
+     */
     void Start()
     {
         SetPause(false);
     }
 
-    // Update is called once per frame
+    /*
+     * Check death, won and if keydown("escape") is pressed
+     * then display the right menu
+     */
     void Update()
     {
         if (isDead)
@@ -39,6 +48,9 @@ public class Pause : MonoBehaviour
         }
     }
 
+    /*
+     * Set pause set to 0 our 1 the flow of time
+     */
     void SetPause()
     {
         pause = !pause;
@@ -53,6 +65,10 @@ public class Pause : MonoBehaviour
             Time.timeScale = 1f;
         }
     }
+
+    /*
+     * Set pause and force a bool
+     */
     public void SetPause(bool set)
     {
         pause = set;
@@ -68,26 +84,33 @@ public class Pause : MonoBehaviour
         }
     }
 
+    /*
+     * Set the death var
+     */
     public void PlayerDead()
     {
         isDead = true;
     }
 
+    /*
+     * Set the Victory var
+     */
     public void Victory()
     {
         isWon = true;
     }
 
-
+    /*
+     * Restart button relaunch the scene and map to start
+     */
     public void RestartScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         SetPause(false);
     }
-    public void Options()
-    {
-
-    }
+    /*
+     * Go out to the main menu
+     */
     public void QuitMainMenu()
     {
         SceneManager.LoadScene("ChooseWorld");

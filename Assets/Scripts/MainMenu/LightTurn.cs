@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/*
+ * Effect of the ligth from main screen
+ */
 public class LightTurn : MonoBehaviour
 {
     public float TurnSpeed = 10;

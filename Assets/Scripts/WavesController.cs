@@ -35,7 +35,10 @@ public class WavesController : MonoBehaviour
         playerStats = this.GetComponent<PlayerStats>();
         spawn = Waypoints.points[0];
     }
-
+    /*
+     * Check every 1/60 sec
+     * 
+     */
     void Update()
     {
 
@@ -51,7 +54,9 @@ public class WavesController : MonoBehaviour
             return;
         }
 
-
+        /*
+         * Check if player is dead or enemies alives to generate enemies
+         */
         if (this.GetComponent<PlayerStats>().isDead || enemiesAlive != 0)
         {
             if(enemiesAlive < 0)
@@ -61,6 +66,9 @@ public class WavesController : MonoBehaviour
             return;
         }
 
+        /*
+         * Count every enemies spawned
+         */
         if (countdown <= 0f)
         {
             StartCoroutine(NewSpawnWave());
@@ -73,18 +81,10 @@ public class WavesController : MonoBehaviour
         txtWave.text = wave.ToString();
     }
 
-    IEnumerator SpawnWave()
-    {
-        for (int i = 0; i < enemies; i++)
-        {
-            GameObject enemy = Instantiate(lstEnemy[0]);
-            enemy.transform.position = spawn.position;
-            enemy.GetComponent<EnemyEntity>().wavesController = this;
-            enemiesAlive += 1;
-            yield return new WaitForSeconds(0.2f);
-        }
-    }
-
+    /*
+     * Spawn wave every X seconds
+     * 
+     */
     IEnumerator NewSpawnWave()
     {
         for (int i = 0; i < lstWaves[wave - 1].enemies.Count; i++)

@@ -35,10 +35,18 @@ public class Turret : MonoBehaviour
 
     public AudioSource audioSource;
 
+    /*
+     * Called in first step after "public class{}"
+     * Set up of all
+     */
     void Start()
     {
         audioSource = this.GetComponent<AudioSource>();
 
+        /*
+         * stat = maxStat
+         * max stat is like initial stat after that, every changement will change the var stat
+         */
         dmg = maxDmg;
         bulletSpeed = maxBulletSpeed;
         explodeRadius = maxExplodeRadius;
@@ -47,13 +55,18 @@ public class Turret : MonoBehaviour
         InvokeRepeating("UpdateTarget", 0f, 0.1f);
     }
 
+    /*
+     * Called every 1/60 sec
+     */
     void Update()
     {
         LookTarget();
         CanShoot();
     }
 
-
+    /*
+     * Check the nearest enemy and focus him
+     */
     public void UpdateTarget()
     {
         GameObject[]    enemies = GameObject.FindGameObjectsWithTag(tagEnemy);
@@ -81,6 +94,9 @@ public class Turret : MonoBehaviour
         }
     }
 
+    /*
+     * Turn the turret in the target pos
+     */
     public void LookTarget()
     {
         if(!target)
@@ -95,6 +111,9 @@ public class Turret : MonoBehaviour
 
     }
 
+    /*
+     * Shoot() when the cooldown is up
+     */
     public void CanShoot()
     {
 
@@ -113,6 +132,9 @@ public class Turret : MonoBehaviour
 
     }
 
+    /*
+     * Create a bullet with it stats to shoot the enemy
+     */
     public void Shoot()
     {
         if (audioSource != null)

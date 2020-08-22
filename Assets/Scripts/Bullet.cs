@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/*
+ * Bullet class of towers
+ */
 public class Bullet : MonoBehaviour
 {
     public GameObject   effectParticle;
@@ -18,6 +22,11 @@ public class Bullet : MonoBehaviour
     public GameObject slowEffect;
     public GameObject poisonEffect;
 
+
+    /*
+     * Called in first step after "public class{}"
+     * Set of particles (Slow / Poison) speed to have a smooth effect
+     */
     void Start()
     {
         if (slowEffect && slowMultipl > -1)
@@ -40,11 +49,18 @@ public class Bullet : MonoBehaviour
             print("poisonEffect null");
         }
     }
+
+    /*
+     * Call every 1/60 sec movement
+     */
     void Update()
     {
         Movement();
     }
 
+    /*
+     * Follow the target until target is touched or dispawn
+     */
     public void Movement()
     {
         if(target == null)
@@ -64,12 +80,21 @@ public class Bullet : MonoBehaviour
 
     }
 
+
+    /*
+     * Like a "public className{}" to set up informations
+     */
     public void Set(Transform target, float dmg, float speed)
     {
         this.target = target;
         this.dmg = dmg;
         this.speed = speed;
     }
+
+
+    /*
+     * Like a "public className{}" to set up informations
+     */
     public void Set(Transform target, float dmg, float speed, float explodeRadius)
     {
         this.target = target;
@@ -78,17 +103,29 @@ public class Bullet : MonoBehaviour
         this.explodeRadius = explodeRadius;
     }
 
+
+    /*
+     * Add a slow effect to the arrow
+     */
     public void SetSlow(float multiplier, float Time)
     {
         slowMultipl = multiplier;
         this.slowTime = Time;
     }
+
+    /*
+     * Add a poson effect to the arrow
+     */
     public void SetPoison(float dmg, float Time)
     {
         poisonDmg = dmg;
         this.poisonTime = Time;
     }
 
+
+    /*
+     * Detect if he touched the target, call Hit()
+     */
     void OnTriggerEnter(Collider coll)
     {
         if(coll.gameObject == target.gameObject)
@@ -97,6 +134,9 @@ public class Bullet : MonoBehaviour
         }
     }
 
+    /*
+     * If he touch the target, apply dmg to the enemy or enemies in range if it have an explode radius
+     */
     public void Hit()
     {
         GameObject effect = Instantiate(effectParticle, transform.position, transform.rotation);
@@ -127,6 +167,9 @@ public class Bullet : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    /*
+     * Set effects to the target if it have
+     */
     void SetEffects(GameObject obj)
     {
         if (slowMultipl > -1)

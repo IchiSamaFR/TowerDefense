@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+
+/*
+ * Class to generate stats of an enemy
+ */
 public class EnemyEntity : MonoBehaviour
 {
     public WavesController      wavesController;
@@ -31,6 +35,9 @@ public class EnemyEntity : MonoBehaviour
     GameObject                  instanceSlowEffect;
     GameObject                  instancePoisonEffect;
 
+    /*
+     * Set up of basics stats
+     */
     void Start()
     {
         speed = speedInit;
@@ -38,13 +45,19 @@ public class EnemyEntity : MonoBehaviour
 
         target = Waypoints.points[waypointIndex + 1];
     }
-    
+
+    /*
+     * Check every 1/60 sec
+     */
     void Update()
     {
         Movement();
         ChekEffects();
     }
 
+    /*
+     * Check effects and applied it
+     */
     void ChekEffects()
     {
         float speedMultiplier = -1;
@@ -67,11 +80,16 @@ public class EnemyEntity : MonoBehaviour
             }
             effects[i].timeBeforeDelet -= Time.deltaTime;
         }
-        if(speedMultiplier > 0)
+
+        /*
+         * Check speed multiplier like speed boost or slow
+         * or
+         * Destroy particules if not
+         */
+        if (speedMultiplier > 0)
         {
             speed = speedInit * speedMultiplier;
 
-            //S'il n'y a pas de particules
             if (slowEffect != null && !instanceSlowEffect)
             {
                 instanceSlowEffect = Instantiate(slowEffect, this.transform);
@@ -79,11 +97,11 @@ public class EnemyEntity : MonoBehaviour
             {
                 Debug.Log("slowEffect null");
             }
-        } else
+        } 
+        else
         {
             speed = speedInit;
 
-            //S'il n'y a pas de slow verifier qu'il existe des particules, les detruires
             if (instanceSlowEffect)
             {
                 Destroy(instanceSlowEffect);
@@ -92,6 +110,12 @@ public class EnemyEntity : MonoBehaviour
         }
 
         timerPoison -= Time.deltaTime;
+
+        /*
+         * Check every X seconds poison and apply dmg
+         * or
+         * Destroy particules if not
+         */
         if (timerPoison < 0)
         {
             timerPoison = 1;
@@ -99,7 +123,6 @@ public class EnemyEntity : MonoBehaviour
             {
                 GetDmg(dmgByPoison);
 
-                //S'il n'y a pas de particules
                 if (poisonEffect != null && !instancePoisonEffect)
                 {
                     instancePoisonEffect = Instantiate(poisonEffect, this.transform);
@@ -109,7 +132,6 @@ public class EnemyEntity : MonoBehaviour
                 }
             } else
             {
-                //S'il n'y a pas de poison et qu'il existe des particules, les detruires
                 if (instancePoisonEffect)
                 {
                     Destroy(instancePoisonEffect);
@@ -118,12 +140,19 @@ public class EnemyEntity : MonoBehaviour
             }
         }
     }
+
+    /*
+     * Add entity effect
+     */
     public void AddEffect(EntityEffect effect)
     {
         effects.Add(effect);
     }
 
 
+    /*
+     * Go the waypoint and go the next if the actual is touched
+     */
     void Movement()
     {
         Vector3 direction = target.position - transform.position;
@@ -152,6 +181,9 @@ public class EnemyEntity : MonoBehaviour
 
     }
 
+    /*
+     * Get the next waypoint to go
+     */
     void NextWaypoint()
     {
         if(waypointIndex + 2 >= Waypoints.points.Length)
@@ -166,6 +198,9 @@ public class EnemyEntity : MonoBehaviour
         target = Waypoints.points[waypointIndex + 1];
     }
 
+    /*
+     * Get damage
+     */
     public void GetDmg(float dmgDeal)
     {
         if(health <= 0)
@@ -182,6 +217,9 @@ public class EnemyEntity : MonoBehaviour
     }
 }
 
+/*
+ * Effects class
+ */
 public class EntityEffect
 {
     public string   type;
