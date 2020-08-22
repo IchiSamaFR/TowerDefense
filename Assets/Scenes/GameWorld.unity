@@ -769,6 +769,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1753121684325147606, guid: fd1ec5dec9f80744eb9c2eb806cd6078,
+        type: 3}
+      propertyPath: m_Name
+      value: GameManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 1753121684325147606, guid: fd1ec5dec9f80744eb9c2eb806cd6078,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5852081912684614262, guid: fd1ec5dec9f80744eb9c2eb806cd6078,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -793,16 +803,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -530
-      objectReference: {fileID: 0}
-    - target: {fileID: 1753121684325147606, guid: fd1ec5dec9f80744eb9c2eb806cd6078,
-        type: 3}
-      propertyPath: m_Name
-      value: GameManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 1753121684325147606, guid: fd1ec5dec9f80744eb9c2eb806cd6078,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1753121684325147607, guid: fd1ec5dec9f80744eb9c2eb806cd6078,
         type: 3}
@@ -1178,6 +1178,16 @@ PrefabInstance:
         type: 3}
       propertyPath: maxHealth
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1753121684325147602, guid: fd1ec5dec9f80744eb9c2eb806cd6078,
+        type: 3}
+      propertyPath: startMoney
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 1753121684325147602, guid: fd1ec5dec9f80744eb9c2eb806cd6078,
+        type: 3}
+      propertyPath: income
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 1753121685397288631, guid: fd1ec5dec9f80744eb9c2eb806cd6078,
         type: 3}
