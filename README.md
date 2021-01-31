@@ -13,3 +13,8 @@ Implemented :
 - Functional turrets
 - Main menu
 - Pause menu
+
+
+# Informations
+
+Toute reproduction interdite sans l'autorisation de l'auteur.
